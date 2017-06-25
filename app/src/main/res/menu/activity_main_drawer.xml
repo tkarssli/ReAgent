@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_bottom">
+        <item
+            android:id="@+id/marquis"
+            android:title="Marquis"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/mecke"
+            android:title="Mecke"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/mandelin"
+            android:title="Mandelin"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/simon"
+            android:title="Simon"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/liebermann"
+            android:title="Liebermann"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/froehde"
+            android:title="Froehde"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/folin"
+            android:title="Folin"
+            android:enabled="false"/>
+    </group>
+
+</menu>
