@@ -5,10 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +19,7 @@ public class HomeAdapter extends BaseAdapter {
     public HomeAdapter(ArrayList<MainActivity.SelectedItem> data){
         mData  = data;
     }
+    private ArrayList<ViewHolder> mHolders = new ArrayList<ViewHolder>();
 
     @Override
     public int getCount() {
@@ -30,14 +31,23 @@ public class HomeAdapter extends BaseAdapter {
         return null;
     }
 
-    public String getChemical(int position) {
+    public Object getLinearLayout(int position) {
+        return mHolders.get(position).linearLayout;
+    }
+
+    public String getChemicalName(int position) {
         Chemical chemical = mData.get(position).chemical;
         return chemical.chemical;
+    }
+    public Chemical getChemical(int position) {
+        Chemical chemical = mData.get(position).chemical;
+        return chemical;
     }
 
     public String getReagent(int position) {
         return (String) mData.get(position).reagent;
     }
+
     public void reset(){
         mData = new ArrayList<MainActivity.SelectedItem>();
     }
@@ -52,13 +62,14 @@ public class HomeAdapter extends BaseAdapter {
         final ViewHolder holder;
         Pattern pattern = Pattern.compile("[a-zA-Z]+-*[a-zA-Z]+");
         String reagent = getReagent(position);
-        String chemical = getChemical(position);
+        String chemical = getChemicalName(position);
 
 
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_adapter_item, parent, false);
             holder = new ViewHolder();
 
+            holder.linearLayout = (LinearLayout) convertView.findViewById(R.id.ll);
             holder.reagentTextView = (TextView) convertView.findViewById(R.id.reagentTextView);
             holder.chemicalTextView = (TextView) convertView.findViewById(R.id.chemicalTextView);
             holder.gradientImageView = (ImageView) convertView.findViewById(R.id.gradientImageView);
@@ -82,11 +93,12 @@ public class HomeAdapter extends BaseAdapter {
 
         holder.gradientImageView.setImageResource(imageId);
         holder.reagentTextView.setText(reagent_name.substring(0,1).toUpperCase() + reagent_name.substring(1));
-        holder.chemicalTextView.setText(getChemical(position));
+        holder.chemicalTextView.setText(getChemicalName(position));
 
         return convertView;
     }
     static class ViewHolder{
+        public LinearLayout linearLayout;
         public TextView reagentTextView, chemicalTextView;
         public ImageView gradientImageView;
     }

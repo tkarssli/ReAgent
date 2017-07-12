@@ -1,12 +1,9 @@
 package tkarssli.reagent;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,24 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import tkarssli.reagent.fragments.HomeFragment;
-import tkarssli.reagent.fragments.FolinFragment;
-import tkarssli.reagent.fragments.FroehdeFragment;
-import tkarssli.reagent.fragments.LiebermannFragment;
-import tkarssli.reagent.fragments.MandelinFragment;
-import tkarssli.reagent.fragments.MarquisFragment;
-import tkarssli.reagent.fragments.MeckeFragment;
-import tkarssli.reagent.fragments.SimonFragment;
+import tkarssli.reagent.fragments.ReagentFragment;
 import tkarssli.reagent.util.Chemical;
 import tkarssli.reagent.util.ChemicalResourceReader;
 
@@ -47,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     public ArrayList<SelectedItem> selectedChemicals = new ArrayList<SelectedItem>();
 
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    public ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +76,7 @@ public class MainActivity extends AppCompatActivity
 
 
         mDrawerToggle.syncState();
+
 
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -150,7 +138,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        MenuItem menuItem = menu.findItem(R.id.action_settings);
+        MenuItem menuItem = menu.findItem(R.id.action_reset);
         menuItem.setVisible(mDoneState);
 
         return true;
@@ -162,22 +150,41 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_done){
 
             // Go back to home fragment on button press
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
+
+            transaction.replace(R.id.content_container, homeFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onNoReactionOptionsItemSelected(MenuItem item,String reagent) {
+        int id = item.getItemId();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("home");
+
+        if (id == R.id.action_no_reaction){
+
+            if(homeFragment.nrFlags.size() == 0 && !homeFragment.nrFlags.contains(reagent)){
+                homeFragment.nrFlags.add(reagent);
+            }
+
             transaction.replace(R.id.content_container, homeFragment);
             transaction.addToBackStack(null);
             transaction.commit();
 
-            mDoneState = false; // Set button visibility back to false
-            invalidateOptionsMenu(); // Reload ActionBar
-            return true;
+        } else {
+            onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
 
 
@@ -186,113 +193,50 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 //        item.setEnabled(false);
 
 
         if (id == R.id.marquis) {
-            MarquisFragment marquisFragment;
-            marquisFragment = (MarquisFragment) getSupportFragmentManager().findFragmentByTag("marquis");
+            String reagent = "marquis";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(marquisFragment != null){
-                transaction.replace(R.id.content_container, marquisFragment);
-            } else {
-                marquisFragment = new MarquisFragment();
-            }
-            transaction.replace(R.id.content_container, marquisFragment, "marquis");
-            if(!marquisFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
 
         } else if (id == R.id.mecke) {
-            MeckeFragment meckeFragment;
-            meckeFragment = (MeckeFragment) getSupportFragmentManager().findFragmentByTag("mecke");
+            String reagent = "mecke";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(meckeFragment != null){
-                transaction.replace(R.id.content_container, meckeFragment);
-            } else {
-                meckeFragment = new MeckeFragment();
-            }
-            transaction.replace(R.id.content_container, meckeFragment, "mecke");
-            if(!meckeFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
 
         } else if (id == R.id.mandelin) {
-            MandelinFragment mandelinFragment;
-            mandelinFragment = (MandelinFragment) getSupportFragmentManager().findFragmentByTag("mandelin");
+            String reagent = "mandelin";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(mandelinFragment != null){
-                transaction.replace(R.id.content_container, mandelinFragment);
-            } else {
-                mandelinFragment = new MandelinFragment();
-            }
-            transaction.replace(R.id.content_container, mandelinFragment, "mandelin");
-            if(!mandelinFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
+
         } else if (id == R.id.simon) {
-            SimonFragment simonFragment;
-            simonFragment = (SimonFragment) getSupportFragmentManager().findFragmentByTag("simon");
+            String reagent = "simon";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(simonFragment != null){
-                transaction.replace(R.id.content_container, simonFragment);
-            } else {
-                simonFragment = new SimonFragment();
-            }
-            transaction.replace(R.id.content_container, simonFragment, "simon");
-            if(!simonFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
 
         } else if (id == R.id.liebermann) {
-            LiebermannFragment liebermannFragment;
-            liebermannFragment = (LiebermannFragment) getSupportFragmentManager().findFragmentByTag("liebermann");
+            String reagent = "liebermann";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(liebermannFragment != null){
-                transaction.replace(R.id.content_container, liebermannFragment);
-            } else {
-                liebermannFragment = new LiebermannFragment();
-            }
-            transaction.replace(R.id.content_container, liebermannFragment, "liebermann");
-            if(!liebermannFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
 
         } else if (id == R.id.froehde) {
-            FroehdeFragment froehdeFragment;
-            froehdeFragment = (FroehdeFragment) getSupportFragmentManager().findFragmentByTag("froehde");
+            String reagent = "froehde";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(froehdeFragment != null){
-                transaction.replace(R.id.content_container, froehdeFragment);
-            } else {
-                froehdeFragment = new FroehdeFragment();
-            }
-            transaction.replace(R.id.content_container, froehdeFragment, "froehde");
-            if(!froehdeFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
 
         } else if (id == R.id.folin) {
-            FolinFragment folinFragment;
-            folinFragment = (FolinFragment) getSupportFragmentManager().findFragmentByTag("folin");
+            String reagent = "folin";
+            int[] non_reactives = {8,10,13,14,15,16,19,20,27};
 
-            if(folinFragment != null){
-                transaction.replace(R.id.content_container, folinFragment);
-            } else {
-                folinFragment = new FolinFragment();
-            }
-            transaction.replace(R.id.content_container, folinFragment, "folin");
-            if(!folinFragment.isVisible()){
-                transaction.addToBackStack(null);
-            }
-            transaction.commit();
+            handleFragment(reagent,non_reactives);
         }
         mDoneState = true;
         invalidateOptionsMenu();
@@ -300,6 +244,32 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void handleFragment(String reagent, int[] non_reactives){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        ReagentFragment reagentFragment;
+        reagentFragment = (ReagentFragment) getSupportFragmentManager().findFragmentByTag(reagent);
+
+
+
+        if(reagentFragment != null){
+            transaction.replace(R.id.content_container, reagentFragment);
+        } else {
+            reagentFragment = new ReagentFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("reagent", reagent);
+            bundle.putIntArray("non_reactives", non_reactives);
+            reagentFragment.setArguments(bundle);
+        }
+        transaction.replace(R.id.content_container, reagentFragment, reagent);
+        if(!reagentFragment.isVisible()){
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
+
     }
 
     // Set which Nav drawer item is selected
@@ -317,9 +287,13 @@ public class MainActivity extends AppCompatActivity
             this. reagent = reagent;
             this.chemical = chemical;
         }
-
-        public boolean equals(SelectedItem item){
-            return reagent.equals(item.reagent) && chemical.equals(item.chemical);
+        @Override
+        public boolean equals(Object other){
+            if (other == null) return false;
+            if (other == this) return true;
+            if (!(other instanceof SelectedItem))return false;
+            SelectedItem otherSelectedItem = (SelectedItem) other;
+            return reagent.equals(otherSelectedItem.reagent) && chemical.equals(otherSelectedItem.chemical);
         }
 
     }

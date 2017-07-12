@@ -6,8 +6,9 @@ package tkarssli.reagent.util;
 
 public class Chemical {
     public String chemical;
-    public String family;
     public Integer id;
+    public String url;
+    public String[] nr;
 
     public void chemical(){
 

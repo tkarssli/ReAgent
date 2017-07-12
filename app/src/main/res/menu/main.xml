@@ -2,14 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_no_reaction"
+        android:icon="@drawable/noreaction_btn"
+        android:title="Done"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_done"
         android:icon="@drawable/ic_done_black_24dp"
         android:orderInCategory="200"
         android:title="Done"
         app:showAsAction="ifRoom" />
     <item
-    android:id="@+id/action_settings"
-    android:orderInCategory="100"
-    android:title="Reset"
-    app:showAsAction="never" />
+        android:id="@+id/action_reset"
+        android:orderInCategory="100"
+        android:title="Reset"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_choose"
+        android:orderInCategory="150"
+        android:title="Choose Reagents"
+        app:showAsAction="never" />
 </menu>

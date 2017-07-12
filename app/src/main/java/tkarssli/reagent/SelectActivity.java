@@ -95,6 +95,7 @@ public class SelectActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("checkedReagents", checkedReagents);
             startActivity(intent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

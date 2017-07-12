@@ -21,12 +21,10 @@ import tkarssli.reagent.util.Chemical;
 
 public class ChemicalAdapter extends ArrayAdapter<Chemical> {
     private String REAGENT_NAME;
-    private Integer[] nonReactives;
     private List<Integer> selectedChemical;
 
-    public ChemicalAdapter(Context context, Chemical[] chemicals, Integer[] nonReactives, String reagent, List<Integer> selectedChemical) {
+    public ChemicalAdapter(Context context, Chemical[] chemicals, String reagent, List<Integer> selectedChemical) {
         super(context, 0, chemicals);
-        this.nonReactives = nonReactives;
         this.REAGENT_NAME = reagent;
         this.selectedChemical = selectedChemical;
 
@@ -38,9 +36,6 @@ public class ChemicalAdapter extends ArrayAdapter<Chemical> {
         Chemical chemical = getItem(position);
         String s_chemical = chemical.chemical;
 
-
-
-
         Pattern pattern = Pattern.compile("[a-zA-Z]+-*[a-zA-Z]+");
 
         if(convertView == null){
@@ -49,27 +44,33 @@ public class ChemicalAdapter extends ArrayAdapter<Chemical> {
             holder.chemName = (TextView) convertView.findViewById(R.id.chemName);
             holder.chemImage = (ImageView) convertView.findViewById(R.id.chemImage);
 
-
             convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        int imageId;
-
         Matcher matcher = pattern.matcher(chemical.chemical);
         matcher.find();
         String name = matcher.group();
         name = name.replace("-","").toLowerCase() + "_" + REAGENT_NAME;
-        imageId = convertView.getResources().getIdentifier(name , "drawable", getContext().getPackageName());
+        int imageId = convertView.getResources().getIdentifier(name , "drawable", getContext().getPackageName());
+
+        View view = (View) holder.chemImage.getParent();
 
         if (imageId != 0){
             holder.chemImage.setImageResource(imageId);
-        } else if (Arrays.asList(nonReactives).contains(chemical.id)){
-            holder.chemImage.setImageResource(R.drawable.noreaction);
-        } else {
-            holder.chemImage.setImageResource(R.drawable.placeholder);
+//            View view = (View) holder.chemImage.getParent();
+            view.setClickable(false);
+        } else if (chemical.nr != null){
+            if(Arrays.asList(chemical.nr).contains(REAGENT_NAME)){
+                holder.chemImage.setImageResource(R.drawable.noreaction);
+
+                view.setClickable(true);
+            } else {
+                holder.chemImage.setImageResource(R.drawable.unknown);
+                view.setClickable(true);
+            }
         }
 
         convertView.findViewById(R.id.item_container).setBackgroundColor(getContext().getResources().getColor(R.color.chemical_list_tem));
@@ -80,22 +81,11 @@ public class ChemicalAdapter extends ArrayAdapter<Chemical> {
         }
 
         holder.chemName.setText(s_chemical);
-//        holder.chemName.setMaxTextSize(44);
-//        holder.chemName.mNeedsResize = true;
-//        holder.chemName.resizeText();
-
-//        if(s_chemical.equals("pma")){
-//            int color = convertView.getResources().getColor(R.color.colorAccent);
-//            convertView.findViewById(R.id.item_container).setBackgroundColor(color);
-//        }
-
-
         return convertView;
     }
 
     static class ViewHolder{
         public TextView chemName;
-        public TextView chemFamily;
         public ImageView chemImage;
     }
 }
