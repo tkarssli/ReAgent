@@ -2,6 +2,7 @@ package tkarssli.reagent.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -93,6 +94,11 @@ public class HomeFragment extends Fragment {
                         ViewGroup.LayoutParams.MATCH_PARENT
                 );
 
+                // TEST should allow backpress to dismiss popup
+                mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+                mPopupWindow.setFocusable(true);
+
+
                 // Set an elevation value for popup window
                 // Call requires API level 21
                 if(Build.VERSION.SDK_INT>=21){
@@ -121,7 +127,6 @@ public class HomeFragment extends Fragment {
 //                    }
 //                });
                 mPopupWindow.setAnimationStyle(R.style.Animation);
-//                mPopupWindow.setFocusable(true);
 
 
                 // Set click handlers
@@ -198,6 +203,8 @@ public class HomeFragment extends Fragment {
 
         ///....
     }
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Do something that differs the Activity's menu here
