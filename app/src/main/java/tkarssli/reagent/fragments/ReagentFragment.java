@@ -90,9 +90,10 @@ public class ReagentFragment extends Fragment {
 
                 }
             }
+            adapter.notifyDataSetChanged();
         }
     }
-
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
