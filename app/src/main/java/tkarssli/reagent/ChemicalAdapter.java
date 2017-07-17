@@ -73,7 +73,7 @@ public class ChemicalAdapter extends ArrayAdapter<Chemical> {
             }
         }
 
-        convertView.findViewById(R.id.item_container).setBackgroundColor(getContext().getResources().getColor(R.color.chemical_list_tem));
+        convertView.findViewById(R.id.item_container).setBackgroundColor(getContext().getResources().getColor(R.color.chemical_list_item));
         for (int x =0; x < selectedChemical.size(); x++){
             if(chemical.id == selectedChemical.get(x)){
                 convertView.findViewById(R.id.item_container).setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));

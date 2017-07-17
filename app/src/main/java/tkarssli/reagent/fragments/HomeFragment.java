@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDismiss() {
                         if (currentSelection != null){
-                            currentSelection.findViewById(R.id.ll).setBackgroundColor(getContext().getResources().getColor(R.color.chemical_list_tem));
+                            currentSelection.findViewById(R.id.ll).setBackgroundColor(getContext().getResources().getColor(R.color.chemical_list_item));
                         }
 
                         }

@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="?attr/colorPrimaryDark"
     android:orientation="vertical"
-    tools:context="tkarssli.reagent.SelectActivity">
+    tools:context="tkarssli.reagent.SelectActivity"
+    >
 
 
     <android.support.v7.widget.Toolbar
@@ -20,63 +21,101 @@
         tools:layout_conversion_absoluteX="0dp"
         tools:layout_conversion_absoluteY="0dp"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="8dp"
+        android:drawSelectorOnTop="true"
+        />
 
     <CheckBox
         android:id="@+id/marquis_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:drawSelectorOnTop="true"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Marquis"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/mecke_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Mecke"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/mandelin_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Mandelin"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/simon_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Simon"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/liebermann_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Liebermann"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/froehde_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Froehde"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
     <CheckBox
         android:id="@+id/folin_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        android:onClick="onCheckboxClicked"
         android:text="Folin"
-        android:onClick="onCheckboxClicked"/>
+        android:textSize="24sp" />
 
 
 </LinearLayout>

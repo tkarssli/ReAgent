@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/chemical_list_tem"
+        android:background="@color/chemical_list_item"
         android:orientation="horizontal"
         android:id="@+id/ll">
 

@@ -19,6 +19,7 @@ public class SelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Select Reagents to Test");
         setSupportActionBar(toolbar);
 
     }
@@ -26,6 +27,12 @@ public class SelectActivity extends AppCompatActivity {
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
+
+        if(checked) {
+            view.setBackgroundColor(getResources().getColor(R.color.colorButtonRed));
+        } else {
+            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
 
         // Check which checkbox was clicked
         switch(view.getId()) {
