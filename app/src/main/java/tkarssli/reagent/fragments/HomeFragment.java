@@ -210,6 +210,7 @@ public class HomeFragment extends Fragment {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.action_reset).setVisible(true);
+        menu.findItem(R.id.action_choose).setVisible(true);
         menu.findItem(R.id.action_done).setVisible(false);
         menu.findItem(R.id.action_no_reaction).setVisible(false);
         ((MainActivity)getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(true);

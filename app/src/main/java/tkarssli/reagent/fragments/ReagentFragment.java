@@ -100,6 +100,7 @@ public class ReagentFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.findItem(R.id.action_reset).setVisible(false);
+        menu.findItem(R.id.action_choose).setVisible(false);
 //        menu.findItem(R.id.action_no_reaction).setVisible(true);
         ((MainActivity)getActivity()).mDrawerToggle.setDrawerIndicatorEnabled(false);
         ((MainActivity)getActivity()).mDrawerToggle.setDrawerSlideAnimationEnabled(false);

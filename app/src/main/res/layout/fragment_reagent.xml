@@ -14,7 +14,7 @@
         android:layout_margin="2dp"
         android:background="@drawable/home_fragment_result_layout_bg"
         android:gravity="center_horizontal"
-        android:text="Select one or multiple similar looking gradients (Color change over time, left to right), then press the checkmark"
+        android:text="@string/reagent_instructions"
         android:textSize="10sp" />
 
     <ListView
