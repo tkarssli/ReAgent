@@ -3,7 +3,6 @@ package tkarssli.reagent.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -45,6 +44,10 @@ public class HomeFragment extends Fragment {
     private ListView mListView;
     private View currentSelection;
     public ArrayList<String> nrFlags=new ArrayList<String>();
+    private Chemical[] mChemicals;
+
+
+    public ArrayList<Chemical> homeAdapterList;
 
     ListView list;
     View rootView;
@@ -53,6 +56,17 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
+
+        homeAdapterList =  new ArrayList<>();
+        mChemicals = ((MainActivity)getActivity()).chemicals;
+
+
+        for(int x = 0; x< mChemicals.length; x++){
+            homeAdapterList.add(mChemicals[x]);
+        }
+
+        MainActivity mainActivity = ((MainActivity)getActivity());
+        ArrayList selectedChemicals = ((MainActivity) getActivity()).selectedChemicals;
         // Set Title
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("ReAgent");
@@ -69,7 +83,7 @@ public class HomeFragment extends Fragment {
         mListView = (ListView)rootView.findViewById(R.id.home_list);
 
         list = (ListView) rootView.findViewById(R.id.home_list);
-        homeAdapter = new HomeAdapter(((MainActivity) getActivity()).selectedChemicals);
+        homeAdapter = new HomeAdapter(mainActivity,mChemicals, homeAdapterList);
         list.setAdapter(homeAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -145,16 +159,16 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-                customView.findViewById(R.id.popup_information_btn).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Chemical chemical = homeAdapter.getChemical(position);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(chemical.url));
-                        startActivity(intent);
-                        mPopupWindow.dismiss();
-
-                    }
-                });
+//                customView.findViewById(R.id.popup_information_btn).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Chemical chemical = homeAdapter.getChemical(position);
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(chemical.url));
+//                        startActivity(intent);
+//                        mPopupWindow.dismiss();
+//
+//                    }
+//                });
 
                 // Get reference for the trasparent linear layout background
                         LinearLayout background_layout = (LinearLayout) customView.findViewById(R.id.popup_transparent_background);
@@ -228,17 +242,16 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_reset:
-                MainActivity mainActivity = ((MainActivity)getActivity());
-                ArrayList<MainActivity.SelectedItem> selectedChemicals = mainActivity.selectedChemicals;
-                selectedChemicals.clear();
-                homeAdapter = new HomeAdapter(selectedChemicals);
-                homeAdapter.reset();
-                list.setAdapter(homeAdapter);
-                nrFlags = new ArrayList<String>();
 
+                MainActivity mainActivity = ((MainActivity)getActivity());
+                mainActivity.selectedChemicals.clear();
+                homeAdapter.clear();
                 homeAdapter.notifyDataSetChanged();
 
-                // Do Fragment menu item stuff here
+                homeAdapter = new HomeAdapter(mainActivity, mChemicals, homeAdapterList);
+                list.setAdapter(homeAdapter);
+
+                nrFlags = new ArrayList<String>();
                 return true;
 
             case R.id.action_choose:
@@ -257,10 +270,18 @@ public class HomeFragment extends Fragment {
         Map.Entry<Chemical, Integer> max = null;
         TextView tv = (TextView) rootView.findViewById(R.id.probability_text) ;
 
+        homeAdapterList.clear();
+
         ArrayList selectedChemicals = ((MainActivity) getActivity()).selectedChemicals;
+
+
 
         if (selectedChemicals.size() > 0 && selectedChemicals != null){
             Map<Chemical, Integer> map = new HashMap<>();
+
+            for (int x = 0; x < mChemicals.length; x++){
+                map.put(mChemicals[x],0);
+            }
 
             for(Object i : selectedChemicals){
                 MainActivity.SelectedItem si = (MainActivity.SelectedItem) i;
@@ -283,6 +304,15 @@ public class HomeFragment extends Fragment {
                 }
             }
 
+            for ( int count = max.getValue(); count > -1; count --){
+                for (Map.Entry<Chemical, Integer> e : map.entrySet()){
+                    if(e.getValue() == count){
+                        e.getKey().rank = count;
+                        homeAdapterList.add(e.getKey());
+                    }
+                }
+            }
+
             String s = "";
             int count = 0;
             for (Map.Entry<Chemical, Integer> e : map.entrySet()){
@@ -292,6 +322,7 @@ public class HomeFragment extends Fragment {
             }
             s += max.getKey().chemical;
             tv.setText(s);
+            homeAdapter.notifyDataSetChanged();
         } else {
             tv.setText("Start by selecting a reagent test from the top left");
         }

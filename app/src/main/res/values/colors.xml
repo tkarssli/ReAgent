@@ -7,4 +7,10 @@
     <color name="colorButtonNormal">#83feaa</color>
     <color name="colorButtonRed">#fe8383</color>
     <color name="black_overlay">#66000000</color>
+
+    // Chemical probability colors
+    <color name="maxProb">#1c31b7</color>
+    <color name="highProb">#22a12a</color>
+    <color name="medProb">#aab71c</color>
+    <color name="lowProb">#b7211c</color>
 </resources>

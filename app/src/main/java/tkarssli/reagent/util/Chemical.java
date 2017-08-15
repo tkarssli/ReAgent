@@ -9,6 +9,7 @@ public class Chemical {
     public Integer id;
     public String url;
     public String[] nr;
+    public int rank = 0;
 
     public void chemical(){
 

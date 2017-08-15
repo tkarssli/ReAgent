@@ -1,105 +1,87 @@
 package tkarssli.reagent;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import tkarssli.reagent.util.Chemical;
 
-public class HomeAdapter extends BaseAdapter {
-    private ArrayList<MainActivity.SelectedItem> mData = new ArrayList<MainActivity.SelectedItem>();
-    public HomeAdapter(ArrayList<MainActivity.SelectedItem> data){
-        mData  = data;
-    }
-    private ArrayList<ViewHolder> mHolders = new ArrayList<ViewHolder>();
+/**
+ * Created by tkars on 6/18/2017.
+ */
 
+public class HomeAdapter extends ArrayAdapter<Chemical> {
+    private Chemical[] mChemicals;
+    private ArrayList<Chemical> mChemical_list;
+    private int mMax = 0;
+
+    public HomeAdapter(Context context, Chemical[] chemicals, ArrayList<Chemical> chemical_list) {
+        super(context, 0, chemical_list);
+        this.mChemicals = chemicals;
+        this.mChemical_list = chemical_list;
+    }
+
+//    public Chemical getChemical(int position){
+//        return mChemicals[position];
+//    }
+
+
+    // Updates the max on data set change, then calls super;
     @Override
-    public int getCount() {
-        return mData.size();
-    }
+    public void notifyDataSetChanged(){
+        if(mChemical_list.size() > 0){
+            mMax = mChemical_list.get(0).rank;
+        }
+        super.notifyDataSetChanged();
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    public Object getLinearLayout(int position) {
-        return mHolders.get(position).linearLayout;
-    }
-
-    public String getChemicalName(int position) {
-        Chemical chemical = mData.get(position).chemical;
-        return chemical.chemical;
-    }
-    public Chemical getChemical(int position) {
-        Chemical chemical = mData.get(position).chemical;
-        return chemical;
-    }
-
-    public String getReagent(int position) {
-        return (String) mData.get(position).reagent;
-    }
-
-    public void reset(){
-        mData = new ArrayList<MainActivity.SelectedItem>();
-    }
-
-    @Override
-    public long getItemId(int arg0) {
-        return arg0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        Pattern pattern = Pattern.compile("[a-zA-Z]+-*[a-zA-Z]+");
-        String reagent = getReagent(position);
-        String chemical = getChemicalName(position);
+        Chemical chemical = getItem(position);
+        String s_chemical = chemical.chemical;
 
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_adapter_item, parent, false);
+        if(convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.home_adapter_item,parent, false);
             holder = new ViewHolder();
-
-            holder.linearLayout = (LinearLayout) convertView.findViewById(R.id.ll);
-            holder.reagentTextView = (TextView) convertView.findViewById(R.id.reagentTextView);
-            holder.chemicalTextView = (TextView) convertView.findViewById(R.id.chemicalTextView);
-            holder.gradientImageView = (ImageView) convertView.findViewById(R.id.gradientImageView);
+            holder.chemName = (TextView) convertView.findViewById(R.id.chemicalTextView);
 
             convertView.setTag(holder);
+
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
 
+        if(chemical.rank >= mMax){
+            convertView.findViewById(R.id.ll).setBackgroundColor(getContext().getResources().getColor(R.color.maxProb));
+        } else if(chemical.rank>= mMax*.75){
+            convertView.findViewById(R.id.ll).setBackgroundColor(getContext().getResources().getColor(R.color.highProb));
+        } else if(chemical.rank >= mMax*.50){
+            convertView.findViewById(R.id.ll).setBackgroundColor(getContext().getResources().getColor(R.color.medProb));
+        } else if(chemical.rank >= 0){
+            convertView.findViewById(R.id.ll).setBackgroundColor(getContext().getResources().getColor(R.color.lowProb));
+        }
 
-        Matcher matcher = pattern.matcher(chemical);
-        matcher.find();
-        String chemical_name = matcher.group();
-        matcher = pattern.matcher(reagent);
-        matcher.find();
-        String reagent_name = matcher.group();
+//        convertView.findViewById(R.id.item_container).setBackgroundColor(getContext().getResources().getColor(R.color.chemical_list_item));
+//        for (int x =0; x < selectedChemical.size(); x++){
+//            if(chemical.id == selectedChemical.get(x)){
+//                convertView.findViewById(R.id.item_container).setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+//            }
+//        }
 
-        chemical_name = chemical_name.replace("-","").toLowerCase() + "_" + reagent_name;
-        int imageId = convertView.getResources().getIdentifier(chemical_name , "drawable", "tkarssli.reagent");
-
-        holder.gradientImageView.setImageResource(imageId);
-        holder.reagentTextView.setText(reagent_name.substring(0,1).toUpperCase() + reagent_name.substring(1));
-        holder.chemicalTextView.setText(getChemicalName(position));
-
+        holder.chemName.setText(s_chemical);
         return convertView;
     }
+
     static class ViewHolder{
-        public LinearLayout linearLayout;
-        public TextView reagentTextView, chemicalTextView;
-        public ImageView gradientImageView;
+        public TextView chemName;
     }
 }

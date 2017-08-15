@@ -1,7 +1,7 @@
 [
   { "chemical" : "MDMA", "id" : 1 , "family" : "entactogen","nr":[], "url":"https://psychonautwiki.org/w/index.php?title=MDMA&_="},
   { "chemical" : "MDE", "id" : 2 , "family" : "entactogen","nr":["folin"], "url":"https://psychonautwiki.org/w/index.php?title=MDE&_="},
-  { "chemical" : "MDA (\"Sass\")", "id" : 3 , "family" : "entactogen","nr":["simon"], "url":"https://psychonautwiki.org/wiki/MDA"},
+  { "chemical" : "MDA", "id" : 3 , "family" : "entactogen","nr":["simon"], "url":"https://psychonautwiki.org/wiki/MDA"},
   { "chemical" : "5-APB/6-APB", "id" : 4,"nr":["simon"], "url":"https://psychonautwiki.org/wiki/5-APB"},
   { "chemical" : "Methylone", "id" : 5, "family" : "Cathinone (\"Bath Salt\")","nr":["folin"], "url":"https://psychonautwiki.org/wiki/Methylone"},
   { "chemical" : "Ethylone", "id" : 6, "family" : "Cathinone (\"Bath Salt\")","nr":["folin"], "url":"https://psychonautwiki.org/wiki/Ethylone"},
