@@ -76,7 +76,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/maxProb" />
             </LinearLayout>
@@ -92,13 +91,11 @@
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/high_prob_rect" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/highProb" />
             </LinearLayout>
@@ -114,13 +111,11 @@
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/med_prob_rect" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/medProb" />
             </LinearLayout>
@@ -136,13 +131,11 @@
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     app:srcCompat="@drawable/low_prob_rect" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/lowProb" />
             </LinearLayout>
