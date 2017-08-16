@@ -1,5 +1,7 @@
 package tkarssli.reagent.util;
 
+import java.util.ArrayList;
+
 /**
  * Created by tkars on 6/18/2017.
  */
@@ -10,6 +12,7 @@ public class Chemical {
     public String url;
     public String[] nr;
     public int rank = 0;
+    public ArrayList<String> posReagents = new ArrayList<>();
 
     public void chemical(){
 

@@ -24,6 +24,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:text="Chemical"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -34,7 +35,8 @@
                 android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:text="Reagents"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/colorButtonRed" />
         </LinearLayout>
 
 

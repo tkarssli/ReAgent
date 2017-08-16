@@ -16,4 +16,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_select">SelectActivity</string>
     <string name="reagent_instructions">Select one or multiple similar looking gradients (Color change over time, left to right), then press the checkmark</string>
+    <string name="lowProb"><![CDATA[< 50%]]></string>
+    <string name="medProb"><![CDATA[50% >]]></string>
+    <string name="highProb"><![CDATA[75% >]]></string>
+    <string name="maxProb"><![CDATA[100%]]></string>
 </resources>

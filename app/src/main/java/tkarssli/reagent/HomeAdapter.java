@@ -52,6 +52,7 @@ public class HomeAdapter extends ArrayAdapter<Chemical> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.home_adapter_item,parent, false);
             holder = new ViewHolder();
             holder.chemName = (TextView) convertView.findViewById(R.id.chemicalTextView);
+            holder.reagentNames = (TextView) convertView.findViewById(R.id.reagentTextView);
 
             convertView.setTag(holder);
 
@@ -78,10 +79,18 @@ public class HomeAdapter extends ArrayAdapter<Chemical> {
 //        }
 
         holder.chemName.setText(s_chemical);
+        String reagentText = "";
+        for(int i = 0; i < chemical.posReagents.size(); i++){
+            String s = chemical.posReagents.get(i);
+            if(i > 0){reagentText += " , ";}
+            reagentText += s.substring(0,1).toUpperCase() + s.substring(1,s.length());
+        }
+        holder.reagentNames.setText(reagentText);
         return convertView;
     }
 
     static class ViewHolder{
         public TextView chemName;
+        public TextView reagentNames;
     }
 }

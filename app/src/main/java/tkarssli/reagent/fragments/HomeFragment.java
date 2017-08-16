@@ -21,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -268,7 +267,7 @@ public class HomeFragment extends Fragment {
 
     public void calculateChemicalProbability(){
         Map.Entry<Chemical, Integer> max = null;
-        TextView tv = (TextView) rootView.findViewById(R.id.probability_text) ;
+//        TextView tv = (TextView) rootView.findViewById(R.id.probability_text) ;
 
         homeAdapterList.clear();
 
@@ -280,6 +279,8 @@ public class HomeFragment extends Fragment {
             Map<Chemical, Integer> map = new HashMap<>();
 
             for (int x = 0; x < mChemicals.length; x++){
+                mChemicals[x].rank = 0;
+                mChemicals[x].posReagents = new ArrayList<>();
                 map.put(mChemicals[x],0);
             }
 
@@ -295,6 +296,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 val = map.get(si.chemical);
+                si.chemical.posReagents.add(si.reagent);
                 map.put(si.chemical, val == null ? 1 : (val*1) + 1);
             }
 
@@ -313,19 +315,20 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-            String s = "";
-            int count = 0;
-            for (Map.Entry<Chemical, Integer> e : map.entrySet()){
-                if( e.getValue() == max.getValue() && !e.getKey().equals(max.getKey()) ){
-                    s += e.getKey().chemical + ", ";
-                }
-            }
-            s += max.getKey().chemical;
-            tv.setText(s);
+//            String s = "";
+//            int count = 0;
+//            for (Map.Entry<Chemical, Integer> e : map.entrySet()){
+//                if( e.getValue() == max.getValue() && !e.getKey().equals(max.getKey()) ){
+//                    s += e.getKey().chemical + ", ";
+//                }
+//            }
+//            s += max.getKey().chemical;
+//            tv.setText(s);
             homeAdapter.notifyDataSetChanged();
-        } else {
-            tv.setText("Start by selecting a reagent test from the top left");
         }
+//        else {
+//            tv.setText("Start by selecting a reagent test from the top left");
+//        }
 
 
     }
