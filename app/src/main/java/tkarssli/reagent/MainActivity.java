@@ -1,6 +1,11 @@
 package tkarssli.reagent;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private Intent intent;
     private HashMap<Integer, String> checkedReagents;
     private boolean mDoneState = false;
+    private boolean mFlashlightState = false;
 
     private NavigationView navigationView;
     public Chemical[] chemicals;
@@ -42,6 +48,12 @@ public class MainActivity extends AppCompatActivity
         intent = getIntent();
         checkedReagents = (HashMap) intent.getSerializableExtra("checkedReagents");
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
         if (savedInstanceState != null) {
             return;
         }
@@ -161,6 +173,45 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.content_container, homeFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+        } else if(id == R.id.flashlight){
+
+            CameraManager camManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            String cameraId = null; // Usually front camera is at 0 position.
+
+            // API > 23 //
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                try {
+                    cameraId = camManager.getCameraIdList()[0];
+                    if(mFlashlightState){
+                        camManager.setTorchMode(cameraId, false);
+                        mFlashlightState = false;
+                    } else {
+                        camManager.setTorchMode(cameraId, true);
+                        mFlashlightState = true;
+                    }
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                } catch(java.lang.IllegalArgumentException e){
+
+                }
+            }
+
+            // API < 21 //
+            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                Camera cam = Camera.open();
+                Camera.Parameters p = cam.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                cam.setParameters(p);
+
+                if(mFlashlightState){
+                    cam.stopPreview();
+                    cam.release();
+                    mFlashlightState = false;
+                } else {
+                    cam.startPreview();
+                    mFlashlightState = true;
+                }
+            }
         }
         return super.onOptionsItemSelected(item);
     }
