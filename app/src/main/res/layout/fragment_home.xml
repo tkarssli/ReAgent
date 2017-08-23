@@ -51,7 +51,7 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="These colors represent the amount of times a chemicals reaction was selected"
+            android:text="@string/probDescription"
             android:textAlignment="center" />
 
         <LinearLayout
